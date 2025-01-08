@@ -18,7 +18,7 @@
 
 
 CVideoClientDlg::CVideoClientDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_VIDEOCLIENT_DIALOG, pParent)
+    : CDialogEx(IDD_VIDEOCLIENT_DIALOG, pParent), m_status(false)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -26,12 +26,24 @@ CVideoClientDlg::CVideoClientDlg(CWnd* pParent /*=nullptr*/)
 void CVideoClientDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_EDIT_PLAY, m_video);
+	DDX_Control(pDX, IDC_SLIDER_POS, m_pose);
+	DDX_Control(pDX, IDC_SLIDER_VOLUME, m_volume);
+	DDX_Control(pDX, IDC_EDIT_URL, m_url);
+	DDX_Control(pDX, IDC_BTN_PLAY, m_btnPlay);
 }
 
 BEGIN_MESSAGE_MAP(CVideoClientDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BTN_PLAY, &CVideoClientDlg::OnBnClickedBtnPlay)
+	ON_BN_CLICKED(IDC_BTN_STOP, &CVideoClientDlg::OnBnClickedBtnStop)
+	ON_WM_DESTROY()
+	ON_NOTIFY(TRBN_THUMBPOSCHANGING, IDC_SLIDER_POS, &CVideoClientDlg::OnTRBNThumbPosChangingSliderPos)
+	ON_NOTIFY(TRBN_THUMBPOSCHANGING, IDC_SLIDER_VOLUME, &CVideoClientDlg::OnTRBNThumbPosChangingSliderVolume)
+	ON_WM_HSCROLL()
+	ON_WM_VSCROLL()
 END_MESSAGE_MAP()
 
 
@@ -47,6 +59,11 @@ BOOL CVideoClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+    SetTimer(0, 500, NULL);
+    m_pose.SetRange(0, 100);
+    m_volume.SetRange(0, 100);
+	m_volume.SetTic(10);
+    m_volume.SetTicFreq(20);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -91,7 +108,77 @@ HCURSOR CVideoClientDlg::OnQueryDragIcon()
 
 void CVideoClientDlg::OnTimer(UINT_PTR nIDEvent)
 {
+	if (nIDEvent == 0)
+	{
+
+	}
+	CDialogEx::OnTimer(nIDEvent);
+}
+
+
+void CVideoClientDlg::OnBnClickedBtnPlay()
+{
+    if (m_status)
+    {
+		// TODO：暂停视频
+        m_btnPlay.SetWindowTextW(L"播放");
+		m_status = false;
+    }
+    else
+    {
+		// TODO：播放视频
+        m_btnPlay.SetWindowTextW(L"暂停");
+		m_status = true;
+    }
+}
+
+
+void CVideoClientDlg::OnBnClickedBtnStop()
+{
+    // TODO：调用Controller的Stop方法
+    m_btnPlay.SetWindowTextW(L"播放");
+    m_status = false;
+}
+
+
+void CVideoClientDlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
+    KillTimer(0);
+}
+
+
+void CVideoClientDlg::OnTRBNThumbPosChangingSliderPos(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	// 此功能要求 Windows Vista 或更高版本。
+	// _WIN32_WINNT 符号必须 >= 0x0600。
+	NMTRBTHUMBPOSCHANGING* pNMTPC = reinterpret_cast<NMTRBTHUMBPOSCHANGING*>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	*pResult = 0;
+}
+
+
+void CVideoClientDlg::OnTRBNThumbPosChangingSliderVolume(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	// 此功能要求 Windows Vista 或更高版本。
+	// _WIN32_WINNT 符号必须 >= 0x0600。
+	NMTRBTHUMBPOSCHANGING* pNMTPC = reinterpret_cast<NMTRBTHUMBPOSCHANGING*>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	*pResult = 0;
+}
+
+
+void CVideoClientDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
-	CDialogEx::OnTimer(nIDEvent);
+	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+
+void CVideoClientDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CDialogEx::OnVScroll(nSBCode, nPos, pScrollBar);
 }
