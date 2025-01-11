@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/VideoClient/include/
+/VideoClient/plugins/
+/VideoClient/lib/
