@@ -7,6 +7,7 @@
 #include "VideoClient.h"
 #include "VideoClientDlg.h"
 #include "afxdialogex.h"
+#include "VideoClientController.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -113,8 +114,22 @@ void CVideoClientDlg::OnTimer(UINT_PTR nIDEvent)
     if (nIDEvent == 0)
     {
         // 控制层，获取视频状态、进度信息
-        // IDC_STATIC_VOLUME 更新音量
         // IDC_STATIC_TIME 更新时间
+        auto pos = m_controller->VideoCtrl(EVLC_GET_POSITION);
+        if (pos != -1.0f)
+        {
+            CString strPos;
+            strPos.Format(L"%02d:%02d:%02d/%02d:%02d:%02d",
+                (int)(pos * 3600) / 60, (int)(pos * 3600) % 60, (int)(pos * 3600 * 60) % 60,
+                0, 0, 0);
+            SetDlgItemText(IDC_STATIC_TIME, strPos);
+        }
+        // IDC_STATIC_VOLUME 更新音量
+        auto volume = m_controller->VideoCtrl(EVLC_GET_VOLUM);
+        CString strVolume;
+        strVolume.Format(L"%d%%", volume);
+        SetDlgItemText(IDC_STATIC_VOLUME, strVolume);
+
     }
     CDialogEx::OnTimer(nIDEvent);
 }
@@ -124,13 +139,20 @@ void CVideoClientDlg::OnBnClickedBtnPlay()
 {
     if (m_status)
     {
-        // TODO：暂停视频
+        // 暂停
+        m_controller->VideoCtrl(EVLC_PAUSE);
         m_btnPlay.SetWindowTextW(L"播放");
         m_status = false;
     }
     else
     {
-        // TODO：播放视频
+        // 播放
+        CString url;
+        m_url.GetWindowTextW(url);
+        // unicode->utf-8
+        m_controller->SetMedia(m_controller->UnicodeToUtf8((LPCTSTR)url));
+        // TODO：判断当前是否为恢复
+        m_controller->VideoCtrl(EVLC_PLAY);
         m_btnPlay.SetWindowTextW(L"暂停");
         m_status = true;
     }
@@ -139,7 +161,7 @@ void CVideoClientDlg::OnBnClickedBtnPlay()
 
 void CVideoClientDlg::OnBnClickedBtnStop()
 {
-    // TODO：调用Controller的Stop方法
+    m_controller->VideoCtrl(EVLC_STOP);
     m_btnPlay.SetWindowTextW(L"播放");
     m_status = false;
 }
@@ -171,7 +193,7 @@ void CVideoClientDlg::OnTRBNThumbPosChangingSliderVolume(NMHDR* pNMHDR, LRESULT*
     *pResult = 0;
 }
 
-
+// 拖动进度条
 void CVideoClientDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
     if (nSBCode == 5)
@@ -179,6 +201,8 @@ void CVideoClientDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
         CString strPos;
         strPos.Format(L"%d%%", nPos);
         SetDlgItemText(IDC_STATIC_TIME, strPos);
+        m_controller->SetPosition(nPos);
+        //m_controller->SetPosition(nPos / 100.0f);
     }
     CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
 }
@@ -192,6 +216,7 @@ void CVideoClientDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
         CString strVolume;
         strVolume.Format(L"%d%%", 100 - nPos);
         SetDlgItemText(IDC_STATIC_VOLUME, strVolume);
+        m_controller->SetVolume(100 - nPos);
     }
     CDialogEx::OnVScroll(nSBCode, nPos, pScrollBar);
 }

@@ -132,6 +132,16 @@ VlcSize EVlc::GetMediaInfo()
     {
         return VlcSize(-1, -1);
     }
-    
+
     return VlcSize(libvlc_video_get_width(m_mediaPlayer), libvlc_video_get_height(m_mediaPlayer));
+}
+
+std::string EVlc::UnicodeToUtf8(const std::wstring& strIn)
+{
+    std::string strOut;
+    int nLen = WideCharToMultiByte(CP_UTF8, 0, strIn.c_str(), strIn.size(), NULL, 0, NULL, NULL);
+    strOut.resize(nLen + 1);
+    WideCharToMultiByte(CP_UTF8, 0, strIn.c_str(), strIn.size(), (LPSTR)strOut.c_str(), nLen, NULL, NULL);
+    return strOut;
+
 }

@@ -33,6 +33,8 @@ public:
     int GetVolume();
     int SetVolume(int volume);
     VlcSize GetMediaInfo();
+    // Unicode -> utf-8
+    std::string UnicodeToUtf8(const std::wstring& strIn);
 
 protected:
     libvlc_instance_t* m_vlcInstance;
