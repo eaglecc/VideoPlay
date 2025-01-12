@@ -19,7 +19,7 @@
 
 
 CVideoClientDlg::CVideoClientDlg(CWnd* pParent /*=nullptr*/)
-    : CDialogEx(IDD_VIDEOCLIENT_DIALOG, pParent), m_status(false)
+    : CDialogEx(IDD_VIDEOCLIENT_DIALOG, pParent), m_status(false), m_length(0.0f)
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -61,12 +61,13 @@ BOOL CVideoClientDlg::OnInitDialog()
 
     // TODO: 在此添加额外的初始化代码
     SetTimer(0, 500, NULL);
-    m_pose.SetRange(0, 100);
+    m_pose.SetRange(0, 1);
     m_volume.SetRange(0, 100);
-    m_volume.SetTic(10);
     m_volume.SetTicFreq(20);
     SetDlgItemText(IDC_STATIC_VOLUME, L"100%");
     SetDlgItemText(IDC_STATIC_TIME, L"--:--:--/--:--:--");
+    m_controller->SetWnd(m_video.GetSafeHwnd());
+    m_url.SetWindowTextW(L"file:///C:\\Users\\24777\\Videos\\mp4素材\\trailer.mp4");
 
     return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -118,11 +119,18 @@ void CVideoClientDlg::OnTimer(UINT_PTR nIDEvent)
         auto pos = m_controller->VideoCtrl(EVLC_GET_POSITION);
         if (pos != -1.0f)
         {
+            if (m_length <= 0.0f)
+            {
+                m_length = m_controller->VideoCtrl(EVLC_GET_LENGTH);
+            }
+            if (m_pose.GetRangeMax() <= 1) {
+                m_pose.SetRange(0, int(m_length));
+            }
+
             CString strPos;
-            strPos.Format(L"%02d:%02d:%02d/%02d:%02d:%02d",
-                (int)(pos * 3600) / 60, (int)(pos * 3600) % 60, (int)(pos * 3600 * 60) % 60,
-                0, 0, 0);
+            strPos.Format(_T("%f/%f"), pos * m_length, m_length);
             SetDlgItemText(IDC_STATIC_TIME, strPos);
+            m_pose.SetPos(int(pos * m_length));
         }
         // IDC_STATIC_VOLUME 更新音量
         auto volume = m_controller->VideoCtrl(EVLC_GET_VOLUM);
@@ -151,7 +159,7 @@ void CVideoClientDlg::OnBnClickedBtnPlay()
         m_url.GetWindowTextW(url);
         // unicode->utf-8
         m_controller->SetMedia(m_controller->UnicodeToUtf8((LPCTSTR)url));
-        // TODO：判断当前是否为恢复
+
         m_controller->VideoCtrl(EVLC_PLAY);
         m_btnPlay.SetWindowTextW(L"暂停");
         m_status = true;
@@ -201,7 +209,7 @@ void CVideoClientDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
         CString strPos;
         strPos.Format(L"%d%%", nPos);
         SetDlgItemText(IDC_STATIC_TIME, strPos);
-        m_controller->SetPosition(nPos);
+        m_controller->SetPosition(float(nPos) / m_length);
         //m_controller->SetPosition(nPos / 100.0f);
     }
     CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);

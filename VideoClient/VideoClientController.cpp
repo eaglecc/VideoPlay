@@ -49,15 +49,17 @@ float CVideoClientController::VideoCtrl(EVLCCommand nCmd)
     switch (nCmd)
     {
     case EVLC_PLAY:
-        return m_vlc.Play();
+        return float(m_vlc.Play());
     case EVLC_PAUSE:
-        return m_vlc.Pause();
+        return float(m_vlc.Pause());
     case EVLC_STOP:
-        return m_vlc.Stop();
+        return float(m_vlc.Stop());
     case EVLC_GET_VOLUM:
-        return m_vlc.GetVolume();
+        return float(m_vlc.GetVolume());
     case EVLC_GET_POSITION:
         return m_vlc.GetPositon();
+    case EVLC_GET_LENGTH:
+        return float(m_vlc.GetLength());
     default:
         break;
     }

@@ -2,6 +2,7 @@
 #include "VideoClientDlg.h"
 #include "EVlc.h"
 
+
 enum EVLCCommand
 {
     EVLC_PLAY = 0,
@@ -9,6 +10,7 @@ enum EVLCCommand
     EVLC_STOP,
     EVLC_GET_VOLUM,
     EVLC_GET_POSITION,
+    EVLC_GET_LENGTH,
 };
 
 class CVideoClientController

@@ -48,6 +48,7 @@ protected:
     CSliderCtrl m_volume;
     CEdit m_url;
     CButton m_btnPlay;
+    float m_length;
 
 public:
     CVideoClientController* m_controller;
