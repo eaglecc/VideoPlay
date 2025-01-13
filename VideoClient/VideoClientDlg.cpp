@@ -133,11 +133,10 @@ void CVideoClientDlg::OnTimer(UINT_PTR nIDEvent)
             m_pose.SetPos(int(pos * m_length));
         }
         // IDC_STATIC_VOLUME 更新音量
-        auto volume = m_controller->VideoCtrl(EVLC_GET_VOLUM);
+        float volume = m_controller->VideoCtrl(EVLC_GET_VOLUM);
         CString strVolume;
-        strVolume.Format(L"%d%%", volume);
+        strVolume.Format(L"%d%%", int(volume));
         SetDlgItemText(IDC_STATIC_VOLUME, strVolume);
-
     }
     CDialogEx::OnTimer(nIDEvent);
 }
@@ -206,9 +205,9 @@ void CVideoClientDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
     if (nSBCode == 5)
     {
-        CString strPos;
-        strPos.Format(L"%d%%", nPos);
-        SetDlgItemText(IDC_STATIC_TIME, strPos);
+        //CString strPos;
+        //strPos.Format(L"%d%%", nPos);
+        //SetDlgItemText(IDC_STATIC_TIME, strPos);
         m_controller->SetPosition(float(nPos) / m_length);
         //m_controller->SetPosition(nPos / 100.0f);
     }
@@ -223,8 +222,8 @@ void CVideoClientDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     {
         CString strVolume;
         strVolume.Format(L"%d%%", 100 - nPos);
-        SetDlgItemText(IDC_STATIC_VOLUME, strVolume);
         m_controller->SetVolume(100 - nPos);
+        SetDlgItemText(IDC_STATIC_VOLUME, strVolume);
     }
     CDialogEx::OnVScroll(nSBCode, nPos, pScrollBar);
 }

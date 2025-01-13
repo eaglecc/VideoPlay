@@ -64,11 +64,13 @@ int EVlc::SetMedia(const std::string& url)
         return -3;
     }
 
+    //调整比例
     CRect rect;
-    GetWindowRect(m_hwnd, &rect);
-    std::string strRadio = "";
-    strRadio.resize(32);
-    libvlc_video_set_aspect_ratio(m_mediaPlayer, strRadio.c_str());
+    GetWindowRect(m_hwnd, rect);
+    std::string strRatio = "";
+    strRatio.resize(32);
+    sprintf((char*)strRatio.c_str(), "%d:%d", rect.Width(), rect.Height());
+    libvlc_video_set_aspect_ratio(m_mediaPlayer, strRatio.c_str()); //设置视频的宽高比
     libvlc_media_player_set_hwnd(m_mediaPlayer, m_hwnd);
     return 0;
 }
