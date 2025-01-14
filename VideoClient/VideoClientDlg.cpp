@@ -126,7 +126,6 @@ void CVideoClientDlg::OnTimer(UINT_PTR nIDEvent)
             if (m_pose.GetRangeMax() <= 1) {
                 m_pose.SetRange(0, int(m_length));
             }
-
             CString strPos;
             strPos.Format(_T("%f/%f"), pos * m_length, m_length);
             SetDlgItemText(IDC_STATIC_TIME, strPos);
