@@ -18,8 +18,8 @@ public:
 		size_t nOperator;			//操作 附带记录size
 		T Data;						//数据
 		HANDLE hEvent;				//pop时机
-
-
+		
+		
 		IocpParam(int op, typename const T& data, HANDLE hEve = NULL) {
 			nOperator = op;
 			Data = data;
@@ -29,8 +29,8 @@ public:
 			nOperator = HQNone;
 		}
 	}PPARAM;	//Post Parameter 用于投递信息的结构体
-
-	//线程安全的队列(利用IOCP实现)
+	
+//线程安全的队列(利用IOCP实现)
 public:
 	CHeQueue() {
 		m_lock = false;
@@ -128,28 +128,28 @@ protected:
 
 	virtual void DealParam(PPARAM* pParam) {
 		switch (pParam->nOperator) {
-		case HQPush:
-			m_lstData.push_back(pParam->Data);
-			delete pParam;
-			break;
-		case HQPop:
-			if (m_lstData.size() > 0) {
-				pParam->Data = m_lstData.front();
-				m_lstData.pop_front();
-			}
-			if (pParam->hEvent != NULL) SetEvent(pParam->hEvent);
-			break;
-		case HQSize:
-			pParam->nOperator = m_lstData.size();
-			if (pParam->hEvent != NULL) SetEvent(pParam->hEvent);
-			break;
-		case HQClear:
-			m_lstData.clear();
-			delete pParam;
-			break;
-		default:
-			TRACE("[%s]:threadMain error!\r\n", __FUNCTION__);
-			break;
+			case HQPush:
+				m_lstData.push_back(pParam->Data);
+				delete pParam;
+				break;
+			case HQPop:
+				if (m_lstData.size() > 0) {
+					pParam->Data = m_lstData.front();
+					m_lstData.pop_front();
+				}
+				if (pParam->hEvent != NULL) SetEvent(pParam->hEvent);
+				break;
+			case HQSize:
+				pParam->nOperator = m_lstData.size();
+				if (pParam->hEvent != NULL) SetEvent(pParam->hEvent);
+				break;
+			case HQClear:
+				m_lstData.clear();
+				delete pParam;
+				break;
+			default:
+				TRACE("[%s]:threadMain error!\r\n", __FUNCTION__);
+				break;
 		}
 	}
 
@@ -189,7 +189,7 @@ protected:
 
 
 template<class T>
-class HeSendQueue :public CHeQueue<T>, public ThreadFuncBase {
+class HeSendQueue :public CHeQueue<T>,public ThreadFuncBase {
 public:
 	typedef int(ThreadFuncBase::* HECALLBACK)(T& data);
 
@@ -236,29 +236,29 @@ protected:
 
 	virtual void DealParam(typename CHeQueue<T>::PPARAM* pParam) {
 		switch (pParam->nOperator) {
-		case CHeQueue<T>::HQPush:
-			CHeQueue<T>::m_lstData.push_back(pParam->Data);
-			delete pParam;
-			break;
-		case CHeQueue<T>::HQPop:
-			if (CHeQueue<T>::m_lstData.size() > 0) {
-				pParam->Data = CHeQueue<T>::m_lstData.front();
-				if ((m_base->*m_callback)(pParam->Data) == 0)
-					CHeQueue<T>::m_lstData.pop_front();
-			}
-			delete pParam;
-			break;
-		case CHeQueue<T>::HQSize:
-			pParam->nOperator = CHeQueue<T>::m_lstData.size();
-			if (pParam->hEvent != NULL) SetEvent(pParam->hEvent);
-			break;
-		case CHeQueue<T>::HQClear:
-			CHeQueue<T>::m_lstData.clear();
-			delete pParam;
-			break;
-		default:
-			OutputDebugStringA("unknown operator!\r\n");
-			break;
+			case CHeQueue<T>::HQPush:
+				CHeQueue<T>::m_lstData.push_back(pParam->Data);
+				delete pParam;
+				break;
+			case CHeQueue<T>::HQPop:
+				if (CHeQueue<T>::m_lstData.size() > 0) {
+					pParam->Data = CHeQueue<T>::m_lstData.front();
+					if((m_base->*m_callback)(pParam->Data)==0)
+						CHeQueue<T>::m_lstData.pop_front();
+				}
+				delete pParam;
+				break;
+			case CHeQueue<T>::HQSize:
+				pParam->nOperator = CHeQueue<T>::m_lstData.size();
+				if (pParam->hEvent != NULL) SetEvent(pParam->hEvent);
+				break;
+			case CHeQueue<T>::HQClear:
+				CHeQueue<T>::m_lstData.clear();
+				delete pParam;
+				break;
+			default:
+				OutputDebugStringA("unknown operator!\r\n");
+				break;
 		}
 	}
 private:

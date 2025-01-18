@@ -25,10 +25,10 @@ public:
 
 class ThreadFuncBase {};
 typedef int (ThreadFuncBase::* FUNCTYPE)();
-class ThreadWorker {
+class ThreadWorker{
 public:
-	ThreadWorker() :thiz(NULL), func(NULL) {}
-	ThreadWorker(void* obj, FUNCTYPE f) : thiz((ThreadFuncBase*)obj), func(f) {}
+	ThreadWorker():thiz(NULL), func(NULL) {}
+	ThreadWorker(void* obj, FUNCTYPE f): thiz((ThreadFuncBase*)obj), func(f) {}
 	ThreadWorker(const ThreadWorker& worker) {
 		thiz = worker.thiz;
 		func = worker.func;
@@ -46,7 +46,7 @@ public:
 		}
 		return -1;
 	}
-	bool IsValid() const {
+	bool IsValid() const{
 		return (thiz != NULL) && (func != NULL);//true 没问题
 	}
 private:
@@ -162,8 +162,8 @@ public:
 			m_thread[i] = new HeThread();
 		}
 	}
-	HeThreadPool() {}
-	~HeThreadPool() {
+	HeThreadPool(){}
+	~HeThreadPool(){
 		Stop();
 		//由于构造时是通过new的，且没有啥基类，要靠自己释放
 		for (size_t i = 0; i < m_thread.size(); i++) {
