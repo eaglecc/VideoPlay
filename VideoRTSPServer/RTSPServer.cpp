@@ -33,7 +33,8 @@ int RTSPServer::threadWorker()
     ESocket client = m_socket.Accept(client_addr);
     if (client != INVALID_SOCKET)
     {
-        m_clients.PushBack(client);
+        RTSPSession session(client);
+        m_listSessions.PushBack(session);
         m_pool.DispatchWorker(ThreadWorker(this, (FUNCTYPE)&RTSPServer::ThreadSession));
     }
     return 0;

@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CHeQueue&lt;T&gt;" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="CHeQueue&lt;T&gt;::__unnamed_enum_0737_1" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CHeQueue.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Typedef Name="CHeQueue&lt;T&gt;::PPARAM" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CHeQueue.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Struct Name="CHeQueue&lt;T&gt;::IocpParam" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CHeQueue.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAgEAAMCAAAAAAEAEAAQAAEAAAAIBAAAA=</HashCode>
+      <FileName>CHeQueue.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeSendQueue&lt;T&gt;" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <NestedTypes>
+      <Typedef Name="HeSendQueue&lt;T&gt;::HECALLBACK" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CHeQueue.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAgAAAAAUAAEEAAAAAAAAAAAAIgAAAA=</HashCode>
+      <FileName>CHeQueue.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HTool" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>HeThread.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ThreadFuncBase" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HeThread.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ThreadWorker" Collapsed="true">
+    <Position X="11.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAUBgAAAAAAAAAAAEAAAAgAAAAAAA=</HashCode>
+      <FileName>HeThread.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeThread" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABAQAIAADAAAAAAQAhAAAAAAAAAAQAAIAAAAABAAAA=</HashCode>
+      <FileName>HeThread.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeThreadPool" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAACAAAACBAAAACAAAMAAAAAgAAAA=</HashCode>
+      <FileName>HeThread.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RTSPRequest" Collapsed="true">
+    <Position X="11.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAgAAIAAAA=</HashCode>
+      <FileName>RTSPServer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RTSPReply" Collapsed="true">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAgAAAEAAAAAAAAAAAAAAAAAAAIAAAAAgAAAAAAA=</HashCode>
+      <FileName>RTSPServer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RTSPSession" Collapsed="true">
+    <Position X="6" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAEAAA=</HashCode>
+      <FileName>RTSPServer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RTSPServer">
+    <Position X="2.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAgAAAAACgIIAAAAAAAAAAAAAAAAACCAZAIDEQAAAAA=</HashCode>
+      <FileName>RTSPServer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HBuffer" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABACAAACEAAAAAACAAgAAAQAAABAAAAAAAAABAAA=</HashCode>
+      <FileName>Socket.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Socket" Collapsed="true">
+    <Position X="7.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAgAAAAAAAAIAAAAQAAAAAAAACAAAA=</HashCode>
+      <FileName>Socket.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EAddress" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAEACAAAIAAAAIAAAAAAAQBAAAAABAAgAAAAAAQ=</HashCode>
+      <FileName>Socket.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ESocket" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CIAAgAAAAgAAAEAAAEAAAIAAIIAAAAAQAAEgAACAAAA=</HashCode>
+      <FileName>Socket.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SocketIniter" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Socket.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Typedef Name="SENDCALLBACK" Collapsed="true">
+    <Position X="7.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CHeQueue.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="FUNCTYPE" Collapsed="true">
+    <Position X="6" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HeThread.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

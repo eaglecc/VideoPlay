@@ -30,9 +30,16 @@ private:
 class RTSPSession {
 public:
     RTSPSession() {}
+    RTSPSession(const ESocket& client);
     RTSPSession(const RTSPSession& session);
     RTSPSession& operator=(const RTSPSession& session);
     ~RTSPSession() {}
+
+    RTSPRequest AnanlyseReauest(const std::string& request);
+    RTSPReply MakeReply(const RTSPRequest& req);
+private:
+    std::string m_id;
+    ESocket m_client;
 };
 
 
@@ -40,6 +47,7 @@ class RTSPServer : public ThreadFuncBase
 {
 public:
     RTSPServer() :m_socket(true), m_status(0), m_pool(10) {
+        // 将 RTSPServer 类的 threadWorker 成员函数设置为主线程的工作函数
         m_threadMain.UpdateWorker(ThreadWorker(this, (FUNCTYPE)&RTSPServer::threadWorker));
     }
     ~RTSPServer();
@@ -50,8 +58,6 @@ public:
 
 protected:
     int threadWorker(); // 0：继续,负数：终止,其他：警告
-    RTSPRequest AnanlyseReauest(const std::string& request);
-    RTSPReply MakeReply(const RTSPRequest& req);
     int ThreadSession();
 
 private:
@@ -62,5 +68,5 @@ private:
     HeThreadPool m_pool;
     std::map<std::string, RTSPSession> m_mapSessions;
     static SocketIniter m_initer;
-    CHeQueue<ESocket> m_clients;
+    CHeQueue<RTSPSession> m_listSessions;
 };
