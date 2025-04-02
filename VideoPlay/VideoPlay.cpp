@@ -13,9 +13,12 @@ std::string UnicodeToUtf8(const std::wstring& strIn) {
 
 int main()
 {
+    // 1. 创建一个 libvlc 实例
     libvlc_instance_t* vlc_instance = libvlc_new(0, nullptr);
     std::string filePath = UnicodeToUtf8(L"C:\\Users\\24777\\Videos\\mp4素材\\car.mp4");  // 多字节-> Unicode -> utf-8
+    // 2. 创建一个 media
     libvlc_media_t* media = libvlc_media_new_path(vlc_instance, filePath.c_str());
+    // 3. 创建一个 media player
     libvlc_media_player_t* player = libvlc_media_player_new_from_media(media);
     do
     {
