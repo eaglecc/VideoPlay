@@ -7,6 +7,8 @@
 #include <string>
 #include <map>
 
+// 如何质量控制？使用TCP做控制，使用UDP做数据传输
+
 /*请求类*/
 class RTSPRequest {
 public:
